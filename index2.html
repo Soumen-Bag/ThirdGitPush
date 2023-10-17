@@ -29,6 +29,16 @@
     </ul>
    </div>
   </div>
+    <script>
+      var headerTitle = document.getElementById("header-title");
+      var helloWorld1 = document.createTextNode("Hello, world ");
+      headerTitle.insertBefore(helloWorld1, headerTitle.firstChild);
 
+      //add hello before item1
+      var itemList=document.getElementById("items");
+      var firstItem=itemList.firstElementChild;
+      var helloWorld2=document.createTextNode("Hello, world ");
+      firstItem.insertBefore(helloWorld2,firstItem.firstChild)
+    </script>
 </body>
 </html>
