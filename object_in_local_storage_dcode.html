@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Object in local storage - JavaScprit - dcode </h2>
+    <script>
+        let myObj = {
+            name: "Soumen",
+            age: 23
+        }
+
+        let myObj_serialized= JSON.stringify(myObj);
+        //console.log(myObj_serialized)
+
+        localStorage.setItem("myObj",myObj_serialized);
+        //console.log(localStorage)
+
+        let myObj_deserialized=JSON.parse(localStorage.getItem("myObj"));
+        console.log(myObj_deserialized);
+    </script>
+</body>
+</html>
