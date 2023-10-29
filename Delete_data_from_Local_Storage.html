@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Management</title>
+</head>
+<body>
+    <h1>User Management</h1>
+    
+    <label for="username">Username:</label>
+    <input type="text" id="username" placeholder="Enter username">
+    <br>
+
+    <label for="email">Email:</label>
+    <input type="text" id="email" placeholder="Enter email">
+    <br>
+
+    <button id="addUser">Add User</button>
+    
+    <div id="userList">
+        <h2>User List</h2>
+        <ul id="userListItems">
+            <!-- User details will be displayed here -->
+        </ul>
+    </div>
+
+    <script>
+        // Function to add a new user
+        function addUser(username, email) {
+            // Check if user data exists in local storage
+            let userData = localStorage.getItem('userData');
+
+            if (userData) {
+                // Parse the existing user data
+                userData = JSON.parse(userData);
+            } else {
+                // If no data exists, create a new empty array
+                userData = [];
+            }
+
+            // Add the new user data
+            userData.push({ username, email });
+
+            // Save the updated user data back to local storage
+            localStorage.setItem('userData', JSON.stringify(userData));
+        }
+
+        // Function to remove a user by index
+        function removeUser(index) {
+            let userData = JSON.parse(localStorage.getItem('userData'));
+
+            if (userData && userData.length > index) {
+                userData.splice(index, 1);
+                localStorage.setItem('userData', JSON.stringify(userData));
+                displayUsers(); // Refresh the user list
+            }
+        }
+
+        // Function to display user data
+        function displayUsers() {
+            const userList = document.getElementById('userListItems');
+            userList.innerHTML = ''; // Clear the current list
+
+            // Retrieve user data from local storage
+            let userData = localStorage.getItem('userData');
+
+            if (userData) {
+                userData = JSON.parse(userData);
+                userData.forEach((user, index) => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = `Username: ${user.username}, Email: ${user.email}`;
+
+                    // Create a Delete button for each user
+                    const deleteButton = document.createElement('button');
+                    deleteButton.textContent = 'Delete';
+                    deleteButton.addEventListener('click', function () {
+                        removeUser(index); // Remove the user when the Delete button is clicked
+                    });
+
+                    listItem.appendChild(deleteButton);
+                    userList.appendChild(listItem);
+                });
+            }
+        }
+
+        // Add User button click event
+        document.getElementById('addUser').addEventListener('click', function () {
+            const username = document.getElementById('username').value;
+            const email = document.getElementById('email').value;
+
+            if (username && email) {
+                addUser(username, email);
+                displayUsers(); // Refresh the user list
+                // Clear input fields
+                document.getElementById('username').value = '';
+                document.getElementById('email').value = '';
+            } else {
+                alert('Please enter both username and email.');
+            }
+        });
+
+        // Initial display of users
+        displayUsers();
+    </script>
+</body>
+</html>
